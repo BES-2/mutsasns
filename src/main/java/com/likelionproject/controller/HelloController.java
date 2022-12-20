@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
     @GetMapping("/hello")
     public ResponseEntity<String> hello() {
+        log.info("crontab 실행여부 확인");
         return ResponseEntity.ok().body("hello");
     }
 }
