@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class HelloController {
     @GetMapping("/hello")
-    @ResponseBody
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok().body("hello");
     }
