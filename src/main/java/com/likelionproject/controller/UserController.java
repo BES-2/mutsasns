@@ -1,5 +1,7 @@
 package com.likelionproject.controller;
 
+import com.likelionproject.dto.User;
+import com.likelionproject.dto.UserDto;
 import com.likelionproject.dto.UserJoinResponse;
 import com.likelionproject.dto.joindto.UserJoinRequest;
 import com.likelionproject.service.UserService;
@@ -15,10 +17,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/join")
-    @ResponseBody
     public ResponseEntity<UserJoinResponse> userJoin(@RequestBody UserJoinRequest userJoinRequest) {
-        UserJoinResponse userJoinResponse = userService.join(userJoinRequest);
-        return ResponseEntity.ok().body(userJoinResponse);
+        UserDto userDto = userService.join(userJoinRequest);
+        return ResponseEntity.ok().body(new UserJoinResponse(userDto.getId(), userDto.getUserName()));
     }
 
 }

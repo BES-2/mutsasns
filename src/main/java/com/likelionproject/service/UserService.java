@@ -1,5 +1,6 @@
 package com.likelionproject.service;
 
+import com.likelionproject.dto.UserDto;
 import com.likelionproject.dto.UserJoinResponse;
 import com.likelionproject.dto.joindto.UserJoinRequest;
 import com.likelionproject.repository.UserRepository;
@@ -15,15 +16,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User toEntity(UserJoinRequest userJoinRequest) {
-        return User.builder()
-                .userName(userJoinRequest.getUserName())
-                .password(userJoinRequest.getPassword())
-                .build();
-    }
+    public UserDto join(UserJoinRequest userJoinRequest) {
+        User newUser = userRepository.save(userJoinRequest.toEntity());
 
-    public UserJoinResponse join(UserJoinRequest userJoinRequest) {
-        User newUser = userRepository.save(toEntity(userJoinRequest));
-        return new UserJoinResponse(newUser.getUserName(), newUser.getPassword());
+        return UserDto.builder()
+                .id(newUser.getId())
+                .userName(newUser.getUserName())
+                .build();
     }
 }
