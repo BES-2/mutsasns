@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
 
     @PostMapping("/join")
@@ -21,5 +20,4 @@ public class UserController {
         UserDto userDto = userService.join(userJoinRequest);
         return ResponseEntity.ok().body(new UserJoinResponse(userDto.getId(), userDto.getUserName()));
     }
-
 }
