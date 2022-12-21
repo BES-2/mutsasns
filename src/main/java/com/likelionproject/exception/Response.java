@@ -1,6 +1,6 @@
 package com.likelionproject.exception;
 
-import com.likelionproject.dto.joindto.FailResult;
+import com.likelionproject.domain.dto.FailResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

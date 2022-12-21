@@ -1,6 +1,6 @@
 package com.likelionproject.exception;
 
-import com.likelionproject.dto.joindto.FailResult;
+import com.likelionproject.domain.dto.FailResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

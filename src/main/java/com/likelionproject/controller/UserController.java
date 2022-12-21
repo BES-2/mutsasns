@@ -1,8 +1,7 @@
 package com.likelionproject.controller;
 
-import com.likelionproject.dto.UserDto;
-import com.likelionproject.dto.joindto.UserJoinResponse;
-import com.likelionproject.dto.joindto.UserJoinRequest;
+import com.likelionproject.domain.dto.joindto.UserJoinResponse;
+import com.likelionproject.domain.dto.joindto.UserJoinRequest;
 import com.likelionproject.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

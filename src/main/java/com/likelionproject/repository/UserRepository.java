@@ -1,6 +1,6 @@
 package com.likelionproject.repository;
 
-import com.likelionproject.dto.User;
+import com.likelionproject.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
