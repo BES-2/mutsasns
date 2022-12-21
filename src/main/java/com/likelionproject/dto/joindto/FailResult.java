@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class JoinResult {
-    private Long userId;
-    private String userName;
+public class FailResult {
+    private String message;
 }
