@@ -1,5 +1,7 @@
 package com.likelionproject.controller;
 
+import com.likelionproject.domain.dto.UserLoginRequest;
+import com.likelionproject.domain.dto.UserLoginResponse;
 import com.likelionproject.domain.dto.joindto.UserJoinResponse;
 import com.likelionproject.domain.dto.joindto.UserJoinRequest;
 import com.likelionproject.service.UserService;
@@ -17,4 +19,10 @@ public class UserController {
     public ResponseEntity<UserJoinResponse> userJoin(@RequestBody UserJoinRequest userJoinRequest) {
         return ResponseEntity.ok().body(userService.join(userJoinRequest));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserLoginResponse> userLogin(@RequestBody UserLoginRequest userLoginRequest) {
+        return ResponseEntity.ok().body(userService.login(userLoginRequest.getUserName(), userLoginRequest.getPassword()));
+    }
+
 }
