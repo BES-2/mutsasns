@@ -43,6 +43,13 @@ public class UserService {
     }
 
     public UserLoginResponse login(String userName, String password) {
+        User loginUser = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUNDED));
+
+        if(!encoder.matches(password, loginUser.getPassword())) {
+            throw new UserException(ErrorCode.INVALID_PASSWORD);
+        }
+
         UserLoginResponse userLoginResponse = new UserLoginResponse(JwtUtil.createJwt(userName, secretKey, expiredMs));
         return userLoginResponse;
     }
