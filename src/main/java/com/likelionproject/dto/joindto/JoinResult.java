@@ -1,11 +1,11 @@
-package com.likelionproject.dto;
+package com.likelionproject.dto.joindto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class UserJoinResponse {
-    private Long id;
+public class JoinResult {
+    private Long userId;
     private String userName;
 }
