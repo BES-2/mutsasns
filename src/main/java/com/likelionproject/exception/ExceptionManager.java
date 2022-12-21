@@ -11,12 +11,12 @@ public class ExceptionManager {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Response.error(e.getMessage(), new FailResult("")));
+                .body(Response.error(e.getMessage(), new FailResult(e.toString(),e.getMessage())));
     }
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<?> UserExceptionHandler(UserException e) {
         return ResponseEntity.status(e.getErrorCode().getStatus())
-                .body(Response.error(e.getErrorCode().toString(), new FailResult(e.getErrorCode().getMessage())));
+                .body(Response.error("ERROR", new FailResult(e.getErrorCode().toString(), e.getErrorCode().getMessage())));
     }
 }

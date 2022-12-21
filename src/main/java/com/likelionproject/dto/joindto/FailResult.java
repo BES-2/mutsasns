@@ -6,5 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class FailResult {
+    private String errorCode;
     private String message;
 }
