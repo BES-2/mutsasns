@@ -1,26 +1,26 @@
 package com.likelionproject.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Builder
+@Getter
 @Entity
 @Table(name="user")
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class User {
+public class User extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "user_name")
     private String userName;
-    private String password;
 
+    @Column(name = "password")
+    private String password;
 
 }
