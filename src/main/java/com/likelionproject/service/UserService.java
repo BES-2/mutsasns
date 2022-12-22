@@ -1,12 +1,12 @@
 package com.likelionproject.service;
 
 import com.likelionproject.domain.dto.UserDto;
-import com.likelionproject.domain.dto.UserLoginResponse;
-import com.likelionproject.domain.dto.joindto.Result;
+import com.likelionproject.domain.dto.logindto.UserLoginResponse;
+import com.likelionproject.domain.dto.result.JoinResult;
 import com.likelionproject.domain.dto.joindto.UserJoinResponse;
 import com.likelionproject.domain.dto.joindto.UserJoinRequest;
 import com.likelionproject.exception.ErrorCode;
-import com.likelionproject.exception.UserException;
+import com.likelionproject.exception.AppException;
 import com.likelionproject.repository.UserRepository;
 import com.likelionproject.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class UserService {
     public UserJoinResponse join(UserJoinRequest userJoinRequest) {
 
         if (userRepository.findByUserName(userJoinRequest.getUserName()).isPresent()) {
-            throw new UserException(ErrorCode.DUPLICATED_USERNAME);
+            throw new AppException(ErrorCode.DUPLICATED_USERNAME);
         }
 
         User newUser = userRepository.save(userJoinRequest.toEntity(encoder.encode(userJoinRequest.getPassword())));
@@ -38,16 +38,16 @@ public class UserService {
                 .id(newUser.getId())
                 .userName(newUser.getUserName())
                 .build();
-        Result result = new Result(userDto.getId(), userDto.getUserName());
+        JoinResult result = new JoinResult(userDto.getId(), userDto.getUserName());
         return new UserJoinResponse("SUCCESS", result);
     }
 
     public UserLoginResponse login(String userName, String password) {
         User loginUser = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new UserException(ErrorCode.USER_NOT_FOUNDED));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
         if(!encoder.matches(password, loginUser.getPassword())) {
-            throw new UserException(ErrorCode.INVALID_PASSWORD);
+            throw new AppException(ErrorCode.INVALID_PASSWORD);
         }
 
         UserLoginResponse userLoginResponse = new UserLoginResponse(JwtUtil.createJwt(userName, secretKey, expiredMs));

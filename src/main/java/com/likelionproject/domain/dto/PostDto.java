@@ -1,18 +1,18 @@
 package com.likelionproject.domain.dto;
 
+import com.likelionproject.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Builder
-public class UserDto {
+public class PostDto {
     private Long id;
-    private String userName;
-    private String password;
+    private String title;
+    private String body;
+    private User user;
 }

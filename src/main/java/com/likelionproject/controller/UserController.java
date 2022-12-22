@@ -1,7 +1,7 @@
 package com.likelionproject.controller;
 
-import com.likelionproject.domain.dto.UserLoginRequest;
-import com.likelionproject.domain.dto.UserLoginResponse;
+import com.likelionproject.domain.dto.logindto.UserLoginRequest;
+import com.likelionproject.domain.dto.logindto.UserLoginResponse;
 import com.likelionproject.domain.dto.joindto.UserJoinResponse;
 import com.likelionproject.domain.dto.joindto.UserJoinRequest;
 import com.likelionproject.service.UserService;

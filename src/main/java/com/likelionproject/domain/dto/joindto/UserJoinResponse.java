@@ -1,5 +1,6 @@
 package com.likelionproject.domain.dto.joindto;
 
+import com.likelionproject.domain.dto.result.JoinResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,5 +8,5 @@ import lombok.Getter;
 @Getter
 public class UserJoinResponse {
     private String resultCode;
-    private Result result;
+    private JoinResult result;
 }
