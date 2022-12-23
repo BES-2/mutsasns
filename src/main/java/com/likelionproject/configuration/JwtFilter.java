@@ -1,5 +1,7 @@
 package com.likelionproject.configuration;
 
+import com.likelionproject.exception.AppException;
+import com.likelionproject.exception.ErrorCode;
 import com.likelionproject.service.UserService;
 import com.likelionproject.util.JwtUtil;
 import lombok.Getter;
@@ -58,7 +60,6 @@ public class JwtFilter extends OncePerRequestFilter {
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken); // 권한 부여
         filterChain.doFilter(request, response);
-
 
     }
 }

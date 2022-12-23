@@ -5,6 +5,7 @@ import com.likelionproject.domain.dto.logindto.UserLoginResponse;
 import com.likelionproject.domain.dto.result.JoinResult;
 import com.likelionproject.domain.dto.joindto.UserJoinResponse;
 import com.likelionproject.domain.dto.joindto.UserJoinRequest;
+import com.likelionproject.domain.dto.result.LoginResult;
 import com.likelionproject.exception.ErrorCode;
 import com.likelionproject.exception.AppException;
 import com.likelionproject.repository.UserRepository;
@@ -49,8 +50,10 @@ public class UserService {
         if(!encoder.matches(password, loginUser.getPassword())) {
             throw new AppException(ErrorCode.INVALID_PASSWORD);
         }
+        LoginResult loginResult = new LoginResult(JwtUtil.createJwt(userName, secretKey, expiredMs));
 
-        UserLoginResponse userLoginResponse = new UserLoginResponse(JwtUtil.createJwt(userName, secretKey, expiredMs));
+
+        UserLoginResponse userLoginResponse = new UserLoginResponse("SUCCESS", loginResult);
         return userLoginResponse;
     }
 }

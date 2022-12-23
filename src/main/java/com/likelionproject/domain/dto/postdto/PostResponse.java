@@ -8,5 +8,5 @@ import lombok.Getter;
 @Getter
 public class PostResponse<T> {
     private String resultCode;
-    private T t;
+    private T result;
 }

@@ -1,9 +1,11 @@
 package com.likelionproject.domain;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
+import com.likelionproject.domain.dto.postdto.PostModifyRequest;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,5 +26,11 @@ public class Post extends BaseEntity {
 
     private String title;
     private String body;
+
+    public void modifyPost(PostModifyRequest postModifyRequest) {
+        this.title = postModifyRequest.getTitle();
+        this.body = postModifyRequest.getBody();
+        this.setLastModifiedAt(LocalDateTime.now());
+    }
 
 }
