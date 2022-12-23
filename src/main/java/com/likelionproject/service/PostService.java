@@ -1,10 +1,15 @@
 package com.likelionproject.service;
 
 import com.likelionproject.domain.Post;
+import com.likelionproject.domain.User;
 import com.likelionproject.domain.dto.PostDto;
+import com.likelionproject.domain.dto.UserDto;
 import com.likelionproject.domain.dto.postdto.PostCreateRequest;
-import com.likelionproject.domain.dto.postdto.PostCreateResponse;
+import com.likelionproject.domain.dto.postdto.PostResponse;
 import com.likelionproject.domain.dto.result.PostCreateResult;
+import com.likelionproject.domain.dto.result.PostGetResult;
+import com.likelionproject.exception.AppException;
+import com.likelionproject.exception.ErrorCode;
 import com.likelionproject.repository.PostRepository;
 import com.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +25,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public PostCreateResponse CreatePost(PostCreateRequest postCreateRequest, Authentication authentication) {
+    public PostResponse createPost(PostCreateRequest postCreateRequest, Authentication authentication) {
         Post newPost = postRepository
                 .save(postCreateRequest.toEntity(userRepository.findByUserName(authentication.getName()).get()));
 
@@ -31,6 +36,20 @@ public class PostService {
                 .build();
 
         PostCreateResult result = new PostCreateResult("포스트 등록 완료", postDto.getId());
-        return new PostCreateResponse("SUCCESS", result);
+        return new PostResponse("SUCCESS", result);
     }
+
+    public PostResponse getOnePost(Long id) {
+        Post getPost = postRepository.findById(id).orElseThrow(() -> new AppException((ErrorCode.POST_ID_NOT_FOUNDED)));
+        PostGetResult postGetResult = PostGetResult.builder()
+                .id(id)
+                .title(getPost.getTitle())
+                .body(getPost.getBody())
+                .userName(getPost.getUser().getUserName())
+                .createdAt(getPost.getCreatedAt())
+                .lastModifiedAt(getPost.getLastModifiedAt())
+                .build();
+        return new PostResponse("SUCCESS", postGetResult);
+    }
+
 }

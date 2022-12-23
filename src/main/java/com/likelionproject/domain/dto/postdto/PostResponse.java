@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class PostCreateResponse {
+public class PostResponse<T> {
     private String resultCode;
-    private PostCreateResult postCreateResult;
+    private T t;
 }
