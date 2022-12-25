@@ -8,4 +8,5 @@ import lombok.Getter;
 public class DeleteResult {
     private String message;
     private Long postId;
+
 }
