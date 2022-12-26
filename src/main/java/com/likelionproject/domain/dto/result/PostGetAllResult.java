@@ -10,6 +10,6 @@ import org.springframework.data.domain.Page;
 @NoArgsConstructor
 @Getter
 @Builder
-public class GetAllPostResult {
+public class PostGetAllResult {
     private Page<PostGetResult> result;
 }

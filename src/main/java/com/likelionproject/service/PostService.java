@@ -3,7 +3,6 @@ package com.likelionproject.service;
 import com.likelionproject.domain.Post;
 import com.likelionproject.domain.dto.PostDto;
 import com.likelionproject.domain.dto.postdto.*;
-import com.likelionproject.domain.dto.result.GetAllPostResult;
 import com.likelionproject.domain.dto.result.PostCreateResult;
 import com.likelionproject.domain.dto.result.PostGetResult;
 import com.likelionproject.domain.dto.result.PostModifyResult;
@@ -19,13 +18,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
 public class PostService {
+
+    //TODO: new 들어가는 부분 Factory 로 분리
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -68,8 +69,8 @@ public class PostService {
                   .title(post.getTitle())
                   .body(post.getBody())
                   .userName(post.getUser().getUserName())
-                  .createdAt(post.getCreatedAt())
-                  .lastModifiedAt(post.getLastModifiedAt())
+                  .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(post.getCreatedAt()))
+                  .lastModifiedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(post.getLastModifiedAt()))
                   .build());
 
         PageInfoResponse pageInfoResponse = PageInfoResponse.builder()
@@ -97,8 +98,8 @@ public class PostService {
                 .title(getPost.getTitle())
                 .body(getPost.getBody())
                 .userName(getPost.getUser().getUserName())
-                .createdAt(getPost.getCreatedAt())
-                .lastModifiedAt(getPost.getLastModifiedAt())
+                .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(getPost.getCreatedAt()))
+                .lastModifiedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(getPost.getLastModifiedAt()))
                 .build();
         return new PostResponse("SUCCESS", postGetResult);
     }

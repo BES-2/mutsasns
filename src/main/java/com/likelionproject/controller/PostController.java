@@ -3,6 +3,7 @@ package com.likelionproject.controller;
 import com.likelionproject.domain.dto.postdto.PostCreateRequest;
 import com.likelionproject.domain.dto.postdto.PostModifyRequest;
 import com.likelionproject.domain.dto.postdto.PostResponse;
+import com.likelionproject.exception.ErrorCode;
 import com.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,8 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostResponse> newPost(@RequestBody PostCreateRequest request, Authentication authentication) {
-        return ResponseEntity.ok().body(postService.createPost(request, authentication));
+        PostResponse newPostResponse = postService.createPost(request, authentication);
+        return ResponseEntity.ok().body(newPostResponse);
     }
 
     @GetMapping("/{id}")
