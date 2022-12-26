@@ -1,12 +1,9 @@
 package com.likelionproject.service;
 
 import com.likelionproject.domain.Post;
-import com.likelionproject.domain.User;
 import com.likelionproject.domain.dto.PostDto;
-import com.likelionproject.domain.dto.postdto.DeleteResult;
-import com.likelionproject.domain.dto.postdto.PostCreateRequest;
-import com.likelionproject.domain.dto.postdto.PostModifyRequest;
-import com.likelionproject.domain.dto.postdto.PostResponse;
+import com.likelionproject.domain.dto.postdto.*;
+import com.likelionproject.domain.dto.result.GetAllPostResult;
 import com.likelionproject.domain.dto.result.PostCreateResult;
 import com.likelionproject.domain.dto.result.PostGetResult;
 import com.likelionproject.domain.dto.result.PostModifyResult;
@@ -16,9 +13,13 @@ import com.likelionproject.repository.PostRepository;
 import com.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +29,6 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-
-    //TODO: CreatePost, ModifyPost 에서 다른 token일 경우 에러처리
 
     /*----- 게시글 수정 -----*/
     public PostResponse modifyPost(Long postId, PostModifyRequest postModifyRequest, String modifierUserName) {
@@ -58,6 +57,36 @@ public class PostService {
 
         PostCreateResult result = new PostCreateResult("포스트 등록 완료", postDto.getId());
         return new PostResponse("SUCCESS", result);
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponse getPosts(Pageable pageable) {
+        Page<Post> posts = postRepository.findAll(pageable);
+        Page<PostGetResult> postAllResult = posts.map(
+          post -> PostGetResult.builder()
+                  .id(post.getId())
+                  .title(post.getTitle())
+                  .body(post.getBody())
+                  .userName(post.getUser().getUserName())
+                  .createdAt(post.getCreatedAt())
+                  .lastModifiedAt(post.getLastModifiedAt())
+                  .build());
+
+        PageInfoResponse pageInfoResponse = PageInfoResponse.builder()
+                .content(postAllResult.getContent())
+                .pageable("INSTANCE")
+                .last(postAllResult.hasNext())
+                .totalElements(postAllResult.getTotalElements())
+                .totalPages(postAllResult.getTotalPages())
+                .size(postAllResult.getSize())
+                .number(postAllResult.getNumber())
+                .sort(postAllResult.getSort())
+                .first(postAllResult.isFirst())
+                .numberOfElements(postAllResult.getNumberOfElements())
+                .empty(postAllResult.isEmpty())
+                .build();
+
+        return new PostResponse("SUCCESS", pageInfoResponse);
     }
 
     @Transactional(readOnly = true)
