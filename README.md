@@ -96,7 +96,7 @@ __# 멋쟁이 사자처럼 Final Project `MutsaSNS`
 {
     "resultCode": "SUCCESS",
     "result": {
-        "postId": 27,
+        "id": 27,
         "title": "Life is C",
         "body": "Life is C between B and D. Beat. Chill Dance.",
         "userName": "귤",
@@ -121,7 +121,7 @@ __# 멋쟁이 사자처럼 Final Project `MutsaSNS`
     "result": {
         "content": [
             {
-                "postId": 27,
+                "id": 27,
                 "title": "Life is C",
                 "body": "Life is C between B and D. Beat. Chill Dance.",
                 "userName": "귤",
@@ -129,7 +129,7 @@ __# 멋쟁이 사자처럼 Final Project `MutsaSNS`
                 "lastModifiedAt": "2022-12-27 14:26:02"
             },
             {
-                "postId": 36,
+                "id": 36,
                 "title": "hello-title",
                 "body": "hello-body",
                 "userName": "kyeongrok22",
