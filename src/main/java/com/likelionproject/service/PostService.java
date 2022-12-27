@@ -65,7 +65,7 @@ public class PostService {
         Page<Post> posts = postRepository.findAll(pageable);
         Page<PostGetResult> postAllResult = posts.map(
           post -> PostGetResult.builder()
-                  .postId(post.getId())
+                  .id(post.getId())
                   .title(post.getTitle())
                   .body(post.getBody())
                   .userName(post.getUser().getUserName())
@@ -94,7 +94,7 @@ public class PostService {
     public PostResponse getOnePost(Long postId) {
         Post getPost = postRepository.findById(postId).orElseThrow(() -> new AppException((ErrorCode.POST_NOT_FOUND)));
         PostGetResult postGetResult = PostGetResult.builder()
-                .postId(postId)
+                .id(postId)
                 .title(getPost.getTitle())
                 .body(getPost.getBody())
                 .userName(getPost.getUser().getUserName())
