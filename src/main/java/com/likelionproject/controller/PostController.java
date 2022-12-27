@@ -3,7 +3,6 @@ package com.likelionproject.controller;
 import com.likelionproject.domain.dto.postdto.PostCreateRequest;
 import com.likelionproject.domain.dto.postdto.PostModifyRequest;
 import com.likelionproject.domain.dto.postdto.PostResponse;
-import com.likelionproject.exception.ErrorCode;
 import com.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,8 +24,8 @@ public class PostController {
         return ResponseEntity.ok().body(newPostResponse);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PostResponse> getOnePost(@PathVariable("id") Long id) {
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostResponse> getOnePost(@PathVariable("postId") Long id) {
         PostResponse postResponse = postService.getOnePost(id);
         return ResponseEntity.ok().body(postResponse);
     }
@@ -44,8 +42,8 @@ public class PostController {
         return ResponseEntity.ok().body(postResponse);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<PostResponse> deletePost(@PathVariable("id") Long deleteId, Authentication authentication) {
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<PostResponse> deletePost(@PathVariable("postId") Long deleteId, Authentication authentication) {
         PostResponse postResponse = postService.deletePost(deleteId, authentication.getName());
         return ResponseEntity.ok().body(postResponse);
     }
