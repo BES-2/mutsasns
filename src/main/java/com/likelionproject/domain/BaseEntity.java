@@ -19,8 +19,6 @@ import java.time.LocalDateTime;
 @ToString
 public class BaseEntity {
 
-    //TODO: LocalDateTime YYYY/MM/DD HH:MM:SS 형식으로 변경
-
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
