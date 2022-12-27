@@ -6,14 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 public class PostGetResult {
-    private Long id;
+    private Long postId;
     private String title;
     private String body;
     private String userName;

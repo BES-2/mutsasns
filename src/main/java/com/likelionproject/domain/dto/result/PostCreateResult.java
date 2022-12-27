@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class PostCreateResult {
     private String message;
-    private Long id;
+    private Long postId;
 }
