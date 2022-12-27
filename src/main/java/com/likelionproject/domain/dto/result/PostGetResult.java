@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 public class PostGetResult {
-    private Long postId;
+    private Long id;
     private String title;
     private String body;
     private String userName;
