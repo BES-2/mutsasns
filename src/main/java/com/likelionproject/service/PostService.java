@@ -31,7 +31,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    /*----- 게시글 수정 -----*/
     public PostResponse modifyPost(Long postId, PostModifyRequest postModifyRequest, String modifierUserName) {
         Long modifierUserId = userRepository.findByUserName(modifierUserName).get().getId();
 

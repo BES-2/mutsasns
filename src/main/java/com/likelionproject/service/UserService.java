@@ -40,6 +40,7 @@ public class UserService {
                 .userName(newUser.getUserName())
                 .build();
         JoinResult result = new JoinResult(userDto.getId(), userDto.getUserName());
+
         return new UserJoinResponse("SUCCESS", result);
     }
 

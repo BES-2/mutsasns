@@ -1,4 +1,4 @@
-__# 멋쟁이 사자처럼 Final Project `MutsaSNS`
+# 멋쟁이 사자처럼 Final Project `MutsaSNS`
 ## 구현 기능
 - [x] [**회원 가입** (POST)](#1.-회원-가입(join)) 
 - [x] [**로그인** (POST)](#2.-로그인(login))
@@ -195,3 +195,6 @@ __# 멋쟁이 사자처럼 Final Project `MutsaSNS`
     }
 }
 ```
+
+
+
