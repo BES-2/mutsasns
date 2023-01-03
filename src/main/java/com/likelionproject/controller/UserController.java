@@ -1,9 +1,10 @@
 package com.likelionproject.controller;
 
-import com.likelionproject.domain.dto.logindto.UserLoginRequest;
-import com.likelionproject.domain.dto.logindto.UserLoginResponse;
-import com.likelionproject.domain.dto.joindto.UserJoinResponse;
-import com.likelionproject.domain.dto.joindto.UserJoinRequest;
+import com.likelionproject.domain.dto.Response;
+import com.likelionproject.domain.dto.userdto.JoinResult;
+import com.likelionproject.domain.dto.userdto.UserLoginRequest;
+import com.likelionproject.domain.dto.userdto.UserJoinRequest;
+import com.likelionproject.domain.dto.userdto.LoginResult;
 import com.likelionproject.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<UserJoinResponse> userJoin(@RequestBody UserJoinRequest userJoinRequest) {
+    public ResponseEntity<Response<JoinResult>> userJoin(@RequestBody UserJoinRequest userJoinRequest) {
         return ResponseEntity.ok().body(userService.join(userJoinRequest));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginResponse> userLogin(@RequestBody UserLoginRequest userLoginRequest) {
+    public ResponseEntity<Response<LoginResult>> userLogin(@RequestBody UserLoginRequest userLoginRequest) {
         return ResponseEntity.ok().body(userService.login(userLoginRequest.getUserName(), userLoginRequest.getPassword()));
     }
 

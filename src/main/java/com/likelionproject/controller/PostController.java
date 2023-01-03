@@ -1,8 +1,9 @@
 package com.likelionproject.controller;
 
-import com.likelionproject.domain.dto.postdto.PostCreateRequest;
-import com.likelionproject.domain.dto.postdto.PostModifyRequest;
-import com.likelionproject.domain.dto.postdto.PostResponse;
+import com.likelionproject.domain.dto.postdto.result.*;
+import com.likelionproject.domain.dto.Response;
+import com.likelionproject.domain.dto.postdto.request.PostCreateRequest;
+import com.likelionproject.domain.dto.postdto.request.PostModifyRequest;
 import com.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,33 +20,33 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostResponse> newPost(@RequestBody PostCreateRequest request, Authentication authentication) {
-        PostResponse newPostResponse = postService.createPost(request, authentication);
-        return ResponseEntity.ok().body(newPostResponse);
+    public ResponseEntity<Response<PostCreateResult>> newPost(@RequestBody PostCreateRequest request, Authentication authentication) {
+        Response<PostCreateResult> response = postService.createPost(request, authentication);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<PostResponse> getOnePost(@PathVariable("postId") Long id) {
-        PostResponse postResponse = postService.getOnePost(id);
+    public ResponseEntity<Response<PostGetResult>> getOnePost(@PathVariable("postId") Long id) {
+        Response<PostGetResult> postResponse = postService.getOnePost(id);
         return ResponseEntity.ok().body(postResponse);
     }
 
     @GetMapping
-    public ResponseEntity<PostResponse> getPosts(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        PostResponse postResponse = postService.getPosts(pageable);
-        return ResponseEntity.ok().body(postResponse);
+    public ResponseEntity<Response<PageInfoResponse>> getPosts(@PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Response<PageInfoResponse> response = postService.getPosts(pageable);
+        return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostResponse> modifyPost(@PathVariable("id") Long postId, @RequestBody PostModifyRequest postModifyRequest, Authentication authentication) {
-        PostResponse postResponse = postService.modifyPost(postId, postModifyRequest, authentication.getName());
-        return ResponseEntity.ok().body(postResponse);
+    public ResponseEntity<Response<PostModifyRequest>> modifyPost(@PathVariable("id") Long postId, @RequestBody PostModifyRequest postModifyRequest, Authentication authentication) {
+        Response response = postService.modifyPost(postId, postModifyRequest, authentication.getName());
+        return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PostResponse> deletePost(@PathVariable("id") Long deleteId, Authentication authentication) {
-        PostResponse postResponse = postService.deletePost(deleteId, authentication.getName());
-        return ResponseEntity.ok().body(postResponse);
+    public ResponseEntity<Response<PostDeleteResult>> deletePost(@PathVariable("id") Long deleteId, Authentication authentication) {
+        Response<PostDeleteResult> response = postService.deletePost(deleteId, authentication.getName());
+        return ResponseEntity.ok().body(response);
     }
 
 }

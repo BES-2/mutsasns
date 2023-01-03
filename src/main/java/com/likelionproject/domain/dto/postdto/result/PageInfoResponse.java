@@ -1,6 +1,5 @@
-package com.likelionproject.domain.dto.postdto;
+package com.likelionproject.domain.dto.postdto.result;
 
-import com.likelionproject.domain.dto.result.PostGetResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,4 +25,7 @@ public class PageInfoResponse {
     private Boolean first;
     private Integer numberOfElements;
     private Boolean empty;
+
+
+
 }

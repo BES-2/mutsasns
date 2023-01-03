@@ -1,18 +1,13 @@
-package com.likelionproject.domain.dto;
+package com.likelionproject.domain.dto.userdto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Builder
-public class UserDto {
+public class JoinResult {
     private Long id;
     private String userName;
-    private String password;
 }

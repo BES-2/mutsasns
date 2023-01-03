@@ -1,6 +1,6 @@
-package com.likelionproject.domain.dto;
+package com.likelionproject.domain.dto.postdto.result;
 
-import com.likelionproject.domain.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,11 +8,13 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Builder
-public class PostDto {
+@Getter
+public class PostGetResult {
     private Long id;
     private String title;
     private String body;
-    private User user;
+    private String userName;
+    private String createdAt;
+    private String lastModifiedAt;
 }

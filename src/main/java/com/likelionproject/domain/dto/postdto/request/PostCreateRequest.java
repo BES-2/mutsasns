@@ -1,4 +1,4 @@
-package com.likelionproject.domain.dto.postdto;
+package com.likelionproject.domain.dto.postdto.request;
 
 import com.likelionproject.domain.Post;
 import com.likelionproject.domain.User;

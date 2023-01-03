@@ -1,7 +1,6 @@
 package com.likelionproject.domain;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
-import com.likelionproject.domain.dto.postdto.PostModifyRequest;
+import com.likelionproject.domain.dto.postdto.request.PostModifyRequest;
 import lombok.*;
 
 import javax.persistence.*;

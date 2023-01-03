@@ -1,4 +1,4 @@
-package com.likelionproject.domain.dto.postdto;
+package com.likelionproject.domain.dto.postdto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

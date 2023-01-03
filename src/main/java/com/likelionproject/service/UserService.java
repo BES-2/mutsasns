@@ -1,11 +1,10 @@
 package com.likelionproject.service;
 
-import com.likelionproject.domain.dto.UserDto;
-import com.likelionproject.domain.dto.logindto.UserLoginResponse;
-import com.likelionproject.domain.dto.result.JoinResult;
-import com.likelionproject.domain.dto.joindto.UserJoinResponse;
-import com.likelionproject.domain.dto.joindto.UserJoinRequest;
-import com.likelionproject.domain.dto.result.LoginResult;
+import com.likelionproject.domain.dto.Response;
+import com.likelionproject.domain.dto.userdto.JoinResult;
+import com.likelionproject.domain.dto.userdto.UserJoinRequest;
+import com.likelionproject.domain.dto.userdto.LoginResult;
+import com.likelionproject.domain.dto.userdto.UserResultFactory;
 import com.likelionproject.exception.ErrorCode;
 import com.likelionproject.exception.AppException;
 import com.likelionproject.repository.UserRepository;
@@ -28,33 +27,28 @@ public class UserService {
 
     private Long expiredMs = 1000 * 60 * 60l;
 
-    public UserJoinResponse join(UserJoinRequest userJoinRequest) {
+    public Response<JoinResult> join(UserJoinRequest userJoinRequest) {
 
         if (userRepository.findByUserName(userJoinRequest.getUserName()).isPresent()) {
             throw new AppException(ErrorCode.DUPLICATED_USERNAME);
         }
 
         User newUser = userRepository.save(userJoinRequest.toEntity(encoder.encode(userJoinRequest.getPassword())));
-        UserDto userDto = UserDto.builder()
-                .id(newUser.getId())
-                .userName(newUser.getUserName())
-                .build();
-        JoinResult result = new JoinResult(userDto.getId(), userDto.getUserName());
+        JoinResult joinResult = UserResultFactory.from(newUser);
 
-        return new UserJoinResponse("SUCCESS", result);
+        return Response.success(joinResult);
     }
 
-    public UserLoginResponse login(String userName, String password) {
+    public Response<LoginResult> login(String userName, String password) {
         User loginUser = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
         if(!encoder.matches(password, loginUser.getPassword())) {
             throw new AppException(ErrorCode.INVALID_PASSWORD);
         }
-        LoginResult loginResult = new LoginResult(JwtUtil.createJwt(userName, secretKey, expiredMs));
 
-
-        UserLoginResponse userLoginResponse = new UserLoginResponse("SUCCESS", loginResult);
-        return userLoginResponse;
+        String token = JwtUtil.createJwt(userName, secretKey, expiredMs);
+        LoginResult loginResult = UserResultFactory.from(token);
+        return Response.success(loginResult);
     }
 }

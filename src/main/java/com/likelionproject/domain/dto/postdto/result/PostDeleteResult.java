@@ -1,11 +1,11 @@
-package com.likelionproject.domain.dto.result;
+package com.likelionproject.domain.dto.postdto.result;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class PostCreateResult {
+public class PostDeleteResult {
     private String message;
     private Long postId;
 }
