@@ -1,4 +1,4 @@
-package com.likelionproject.domain;
+package com.likelionproject.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;

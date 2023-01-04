@@ -1,4 +1,4 @@
-package com.likelionproject.domain;
+package com.likelionproject.domain.entity;
 
 import com.likelionproject.domain.dto.postdto.request.PostModifyRequest;
 import lombok.*;

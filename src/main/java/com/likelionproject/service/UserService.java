@@ -10,7 +10,7 @@ import com.likelionproject.exception.AppException;
 import com.likelionproject.repository.UserRepository;
 import com.likelionproject.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import com.likelionproject.domain.User;
+import com.likelionproject.domain.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

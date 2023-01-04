@@ -1,8 +1,6 @@
 package com.likelionproject.domain.dto.userdto;
 
-import com.likelionproject.domain.User;
-import com.likelionproject.domain.dto.userdto.JoinResult;
-import com.likelionproject.domain.dto.userdto.LoginResult;
+import com.likelionproject.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

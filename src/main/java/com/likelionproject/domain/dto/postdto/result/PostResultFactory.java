@@ -1,6 +1,6 @@
 package com.likelionproject.domain.dto.postdto.result;
 
-import com.likelionproject.domain.Post;
+import com.likelionproject.domain.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
@@ -36,7 +36,7 @@ public class PostResultFactory {
         return new PostDeleteResult("포스트 삭제 완료", deleteId);
     }
 
-    public static Page<PostGetResult> from(Page<Post> posts) {
+    public static Page<PostGetResult> newPage(Page<Post> posts) {
         return posts.map(
                 post -> PostGetResult.builder()
                         .id(post.getId())

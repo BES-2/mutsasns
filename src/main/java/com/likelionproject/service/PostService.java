@@ -1,6 +1,6 @@
 package com.likelionproject.service;
 
-import com.likelionproject.domain.Post;
+import com.likelionproject.domain.entity.Post;
 import com.likelionproject.domain.dto.postdto.result.*;
 import com.likelionproject.domain.dto.Response;
 import com.likelionproject.domain.dto.postdto.request.PostCreateRequest;
@@ -53,7 +53,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public Response<PageInfoResponse> getPosts(Pageable pageable) {
         Page<Post> posts = postRepository.findAll(pageable);
-        Page<PostGetResult> postAllResult = PostResultFactory.from(posts);
+        Page<PostGetResult> postAllResult = PostResultFactory.newPage(posts);
 
         PageInfoResponse pageInfoResponse = PostResultFactory.from(postAllResult);
 
