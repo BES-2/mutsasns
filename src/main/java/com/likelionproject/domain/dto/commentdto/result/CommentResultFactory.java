@@ -20,7 +20,7 @@ public class CommentResultFactory {
                 .build();
     }
 
-    public static CommentModifyResult newModifyComment(Comment comment) {
+    public static CommentModifyResult newModifyCommentResult(Comment comment) {
         return CommentModifyResult.builder()
                 .id(comment.getId())
                 .comment(comment.getComment())
@@ -29,6 +29,13 @@ public class CommentResultFactory {
                 .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(comment.getCreatedAt()))
                 .lastModifiedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(comment.getLastModifiedAt()))
                 .build();
+    }
+
+    public static CommentDeleteResult newDeleteComment(Long commentId) {
+        return new CommentDeleteResult(
+                "댓글 삭제 완료",
+                commentId
+        );
     }
 
 }

@@ -23,26 +23,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PostService {
 
-    //TODO: new 들어가는 부분 Factory 로 분리
-
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
     /*  포스트 수정  */
-    public Response modifyPost(Long postId, PostModifyRequest postModifyRequest, String modifierUserName) {
+    public Response<PostModifyResult> modifyPost(Long postId, PostModifyRequest postModifyRequest, String modifierUserName) {
         Long modifierUserId = userRepository.findByUserName(modifierUserName).get().getId();
 
         Post selectPost = postRepository.findById(postId)
-                .filter(post -> post.getUser().getId() == modifierUserId)
+                .filter(post -> post.getUser().getId().equals(modifierUserId))
                 .orElseThrow(() -> new AppException(ErrorCode.INVALID_PERMISSION));
 
         selectPost.modifyPost(postModifyRequest);
 
         PostModifyResult postModifyResult = PostResultFactory.from(postId);
-        return new Response("SUCCESS", postModifyResult);
+        return Response.success(postModifyResult);
     }
     /*     새 포스트 작성    */
-    public Response createPost(PostCreateRequest postCreateRequest, Authentication authentication) {
+    public Response<PostCreateResult> createPost(PostCreateRequest postCreateRequest, Authentication authentication) {
         Post newPost = postRepository
                 .save(postCreateRequest.toEntity(userRepository.findByUserName(authentication.getName()).get()));
 
@@ -57,7 +55,7 @@ public class PostService {
 
         PageInfoResponse pageInfoResponse = PostResultFactory.from(postAllResult);
 
-        return new Response<PageInfoResponse>("SUCCESS", pageInfoResponse);
+        return Response.success(pageInfoResponse);
     }
 
     @Transactional(readOnly = true)
@@ -71,11 +69,11 @@ public class PostService {
         Long deleteUserId = userRepository.findByUserName(deleteUserName).get().getId();
 
         Post selectedPost = postRepository.findById(deleteId)
-                .filter(post -> post.getUser().getId() == deleteUserId)
+                .filter(post -> post.getUser().getId().equals(deleteUserId))
                 .orElseThrow(() -> new AppException(ErrorCode.INVALID_PERMISSION));
 
         postRepository.delete(selectedPost);
         PostDeleteResult postDeleteResult = PostResultFactory.newResult(deleteId);
-        return new Response<PostDeleteResult>("SUCCESS", postDeleteResult);
+        return Response.success(postDeleteResult);
     }
 }

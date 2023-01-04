@@ -4,6 +4,7 @@ import com.likelionproject.domain.dto.Response;
 import com.likelionproject.domain.dto.commentdto.request.CommentCreateRequest;
 import com.likelionproject.domain.dto.commentdto.request.CommentModifyRequest;
 import com.likelionproject.domain.dto.commentdto.result.CommentCreateResult;
+import com.likelionproject.domain.dto.commentdto.result.CommentDeleteResult;
 import com.likelionproject.domain.dto.commentdto.result.CommentModifyResult;
 import com.likelionproject.domain.dto.commentdto.result.CommentResultFactory;
 import com.likelionproject.domain.entity.Comment;
@@ -41,14 +42,24 @@ public class CommentService {
     public Response<CommentModifyResult> modifyComment(Long commentId, CommentModifyRequest commentModifyRequest, Authentication authentication) {
         User modifyingUser = userRepository.findByUserName(authentication.getName()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
         Comment modifyComment = commentRepository.findById(commentId)
-                .filter(comment -> comment.getUser().getId() == modifyingUser.getId())
+                .filter(comment -> comment.getUser().getId().equals(modifyingUser.getId()))
                 .orElseThrow(() -> new AppException(ErrorCode.INVALID_PERMISSION));
 
         modifyComment.modifyComment(commentModifyRequest);
 
-        CommentModifyResult commentModifyResult = CommentResultFactory.newModifyComment(modifyComment);
+        CommentModifyResult commentModifyResult = CommentResultFactory.newModifyCommentResult(modifyComment);
         return Response.success(commentModifyResult);
+    }
 
+    public Response<CommentDeleteResult> deleteComment(Long commentId, Authentication authentication) {
+        User deletingUser = userRepository.findByUserName(authentication.getName()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
+        Comment deleteComment = commentRepository.findById(commentId)
+                .filter(comment -> comment.getUser().getId().equals(deletingUser.getId()))
+                .orElseThrow(() -> new AppException(ErrorCode.INVALID_PERMISSION));
+        commentRepository.delete(deleteComment);
+
+        CommentDeleteResult commentDeleteResult = CommentResultFactory.newDeleteComment(commentId);
+        return Response.success(commentDeleteResult);
     }
 
 }

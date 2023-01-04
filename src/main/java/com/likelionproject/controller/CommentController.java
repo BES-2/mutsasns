@@ -4,6 +4,7 @@ import com.likelionproject.domain.dto.Response;
 import com.likelionproject.domain.dto.commentdto.request.CommentCreateRequest;
 import com.likelionproject.domain.dto.commentdto.request.CommentModifyRequest;
 import com.likelionproject.domain.dto.commentdto.result.CommentCreateResult;
+import com.likelionproject.domain.dto.commentdto.result.CommentDeleteResult;
 import com.likelionproject.domain.dto.commentdto.result.CommentModifyResult;
 import com.likelionproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,12 @@ public class CommentController {
     @PutMapping("/{commentId}")
     public ResponseEntity<Response<CommentModifyResult>> modifyComment(@PathVariable("commentId") Long commentId, @RequestBody CommentModifyRequest commentModifyRequest, Authentication authentication) {
         Response<CommentModifyResult> response = commentService.modifyComment(commentId, commentModifyRequest, authentication);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Response<CommentDeleteResult>> deleteComment(@PathVariable("commentId") Long commentId, Authentication authentication) {
+        Response<CommentDeleteResult> response = commentService.deleteComment(commentId, authentication);
         return ResponseEntity.ok().body(response);
     }
 
