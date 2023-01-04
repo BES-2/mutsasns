@@ -2,7 +2,9 @@ package com.likelionproject.service;
 
 import com.likelionproject.domain.dto.Response;
 import com.likelionproject.domain.dto.commentdto.request.CommentCreateRequest;
+import com.likelionproject.domain.dto.commentdto.request.CommentModifyRequest;
 import com.likelionproject.domain.dto.commentdto.result.CommentCreateResult;
+import com.likelionproject.domain.dto.commentdto.result.CommentModifyResult;
 import com.likelionproject.domain.dto.commentdto.result.CommentResultFactory;
 import com.likelionproject.domain.entity.Comment;
 import com.likelionproject.domain.entity.Post;
@@ -27,17 +29,26 @@ public class CommentService {
     private final UserRepository userRepository;
 
     public Response<CommentCreateResult> createComment(Long postId, CommentCreateRequest commentCreateRequest, Authentication authentication) {
-        // id로 post 찾아냄
-        Post selectedPost = postRepository.findById(postId).orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
-
-        // authentication으로 user꺼냄
+        Post selectedPost = postRepository.findById(postId).orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUNDED));
         User writingUser = userRepository.findByUserName(authentication.getName()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
-        // comment를 만들어야지. 내용, postid, username 적어서
         Comment newComment = commentRepository.save(commentCreateRequest.toEntity(selectedPost, writingUser));
-
-        // 저장된 comment정보 CommentCreateResult 팩토리로 넘기자
         CommentCreateResult commentCreateResult = CommentResultFactory.from(newComment);
+
         return Response.success(commentCreateResult);
     }
+
+    public Response<CommentModifyResult> modifyComment(Long commentId, CommentModifyRequest commentModifyRequest, Authentication authentication) {
+        User modifyingUser = userRepository.findByUserName(authentication.getName()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
+        Comment modifyComment = commentRepository.findById(commentId)
+                .filter(comment -> comment.getUser().getId() == modifyingUser.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.INVALID_PERMISSION));
+
+        modifyComment.modifyComment(commentModifyRequest);
+
+        CommentModifyResult commentModifyResult = CommentResultFactory.newModifyComment(modifyComment);
+        return Response.success(commentModifyResult);
+
+    }
+
 }

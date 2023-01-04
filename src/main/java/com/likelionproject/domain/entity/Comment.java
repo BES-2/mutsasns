@@ -1,8 +1,10 @@
 package com.likelionproject.domain.entity;
 
+import com.likelionproject.domain.dto.commentdto.request.CommentModifyRequest;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -26,4 +28,10 @@ public class Comment extends BaseEntity{
     @ManyToOne
     @JoinColumn(name="post_id")
     private Post post;
+
+    public void modifyComment(CommentModifyRequest commentModifyRequest) {
+        this.comment = commentModifyRequest.getComment();
+        this.setLastModifiedAt(LocalDateTime.now());
+    }
+
 }

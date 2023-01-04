@@ -19,4 +19,16 @@ public class CommentResultFactory {
                 .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(comment.getCreatedAt()))
                 .build();
     }
+
+    public static CommentModifyResult newModifyComment(Comment comment) {
+        return CommentModifyResult.builder()
+                .id(comment.getId())
+                .comment(comment.getComment())
+                .userName(comment.getUser().getUserName())
+                .postId(comment.getPost().getId())
+                .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(comment.getCreatedAt()))
+                .lastModifiedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(comment.getLastModifiedAt()))
+                .build();
+    }
+
 }

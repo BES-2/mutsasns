@@ -62,7 +62,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Response<PostGetResult> getOnePost(Long postId) {
-        Post getPost = postRepository.findById(postId).orElseThrow(() -> new AppException((ErrorCode.POST_NOT_FOUND)));
+        Post getPost = postRepository.findById(postId).orElseThrow(() -> new AppException((ErrorCode.POST_NOT_FOUNDED)));
         PostGetResult postGetResult = PostResultFactory.from(getPost);
         return Response.success(postGetResult);
     }
