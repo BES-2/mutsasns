@@ -3,10 +3,7 @@ package com.likelionproject.service;
 import com.likelionproject.domain.dto.Response;
 import com.likelionproject.domain.dto.commentdto.request.CommentCreateRequest;
 import com.likelionproject.domain.dto.commentdto.request.CommentModifyRequest;
-import com.likelionproject.domain.dto.commentdto.result.CommentCreateResult;
-import com.likelionproject.domain.dto.commentdto.result.CommentDeleteResult;
-import com.likelionproject.domain.dto.commentdto.result.CommentModifyResult;
-import com.likelionproject.domain.dto.commentdto.result.CommentResultFactory;
+import com.likelionproject.domain.dto.commentdto.result.*;
 import com.likelionproject.domain.entity.Comment;
 import com.likelionproject.domain.entity.Post;
 import com.likelionproject.domain.entity.User;
@@ -16,6 +13,8 @@ import com.likelionproject.repository.CommentRepository;
 import com.likelionproject.repository.PostRepository;
 import com.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +59,14 @@ public class CommentService {
 
         CommentDeleteResult commentDeleteResult = CommentResultFactory.newDeleteComment(commentId);
         return Response.success(commentDeleteResult);
+    }
+
+    public Response<CommentPageResult> getComments(Long postId, Pageable pageable) {
+        Page<Comment> getComments = commentRepository.findByPostId(postId, pageable);
+        Page<CommentGetResult> commentAllResult = CommentResultFactory.newPage(getComments);
+
+        CommentPageResult commentPageResult = CommentResultFactory.from(commentAllResult);
+        return Response.success(commentPageResult);
     }
 
 }

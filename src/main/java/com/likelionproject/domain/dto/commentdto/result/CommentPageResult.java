@@ -1,5 +1,6 @@
-package com.likelionproject.domain.dto.postdto.result;
+package com.likelionproject.domain.dto.commentdto.result;
 
+import com.likelionproject.domain.dto.postdto.result.PostGetResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,11 +11,10 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Builder
-public class PageInfoResponse {
-    private List<PostGetResult> content;
-
+@Getter
+public class CommentPageResult {
+    private List<CommentGetResult> content;
     private String pageable;
     private Boolean last;
     private Long totalElements;
@@ -25,7 +25,5 @@ public class PageInfoResponse {
     private Boolean first;
     private Integer numberOfElements;
     private Boolean empty;
-
-
 
 }

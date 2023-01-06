@@ -45,11 +45,12 @@ public class PostResultFactory {
                         .userName(post.getUser().getUserName())
                         .createdAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(post.getCreatedAt()))
                         .lastModifiedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(post.getLastModifiedAt()))
-                        .build());
+                        .build()
+        );
     }
 
-    public static PageInfoResponse from(Page<PostGetResult> postAllResult) {
-        return PageInfoResponse.builder()
+    public static PostPageResult from(Page<PostGetResult> postAllResult) {
+        return PostPageResult.builder()
                 .content(postAllResult.getContent())
                 .pageable("INSTANCE")
                 .last(postAllResult.hasNext())

@@ -6,8 +6,10 @@ import com.likelionproject.domain.dto.commentdto.request.CommentModifyRequest;
 import com.likelionproject.domain.dto.commentdto.result.CommentCreateResult;
 import com.likelionproject.domain.dto.commentdto.result.CommentDeleteResult;
 import com.likelionproject.domain.dto.commentdto.result.CommentModifyResult;
+import com.likelionproject.domain.dto.commentdto.result.CommentPageResult;
 import com.likelionproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,12 @@ public class CommentController {
     @DeleteMapping("/{commentId}")
     public ResponseEntity<Response<CommentDeleteResult>> deleteComment(@PathVariable("commentId") Long commentId, Authentication authentication) {
         Response<CommentDeleteResult> response = commentService.deleteComment(commentId, authentication);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<Response<CommentPageResult>> getComments(@PathVariable("postId") Long postId, Pageable pageable) {
+        Response<CommentPageResult> response = commentService.getComments(postId, pageable);
         return ResponseEntity.ok().body(response);
     }
 

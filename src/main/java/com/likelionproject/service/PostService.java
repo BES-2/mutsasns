@@ -39,23 +39,24 @@ public class PostService {
         PostModifyResult postModifyResult = PostResultFactory.from(postId);
         return Response.success(postModifyResult);
     }
+
     /*     새 포스트 작성    */
     public Response<PostCreateResult> createPost(PostCreateRequest postCreateRequest, Authentication authentication) {
         Post newPost = postRepository
                 .save(postCreateRequest.toEntity(userRepository.findByUserName(authentication.getName()).get()));
 
         PostCreateResult postCreateResult = PostResultFactory.newCreateResult(newPost);
-    return Response.success(postCreateResult);
+        return Response.success(postCreateResult);
     }
 
     @Transactional(readOnly = true)
-    public Response<PageInfoResponse> getPosts(Pageable pageable) {
+    public Response<PostPageResult> getPosts(Pageable pageable) {
         Page<Post> posts = postRepository.findAll(pageable);
         Page<PostGetResult> postAllResult = PostResultFactory.newPage(posts);
 
-        PageInfoResponse pageInfoResponse = PostResultFactory.from(postAllResult);
+        PostPageResult postPageResult = PostResultFactory.from(postAllResult);
 
-        return Response.success(pageInfoResponse);
+        return Response.success(postPageResult);
     }
 
     @Transactional(readOnly = true)
