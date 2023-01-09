@@ -40,4 +40,9 @@ public class LikeService {
         return Response.success("좋아요를 눌렀습니다.");
 
     }
+
+    public Response<Long> showLike(Long postId) {
+        Long likesCount = likeRepository.countByPostId(postId);
+        return Response.success(likesCount);
+    }
 }

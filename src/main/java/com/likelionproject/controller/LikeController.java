@@ -19,7 +19,8 @@ public class LikeController {
     }
 
     @GetMapping
-    public ResponseEntity<String> showLikes(@PathVariable("postId") Long postId) {
-        return ResponseEntity.ok().body("좋아요 표시");
+    public ResponseEntity<Response<Long>> showLikes(@PathVariable("postId") Long postId) {
+        Response<Long> response = likeService.showLike(postId);
+        return ResponseEntity.ok().body(response);
     }
 }
