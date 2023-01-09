@@ -1,5 +1,6 @@
 package com.likelionproject.controller;
 
+import com.likelionproject.domain.dto.myfeeddto.MyFeedResult;
 import com.likelionproject.domain.dto.postdto.result.*;
 import com.likelionproject.domain.dto.Response;
 import com.likelionproject.domain.dto.postdto.request.PostCreateRequest;
@@ -46,6 +47,12 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Response<PostDeleteResult>> deletePost(@PathVariable("id") Long deleteId, Authentication authentication) {
         Response<PostDeleteResult> response = postService.deletePost(deleteId, authentication.getName());
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<Response<MyFeedResult>> getMyFeed(Authentication authentication, @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Response<MyFeedResult> response = postService.getMyFeed(authentication.getName(), pageable);
         return ResponseEntity.ok().body(response);
     }
 

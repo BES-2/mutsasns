@@ -1,5 +1,6 @@
 package com.likelionproject.domain.dto.postdto.result;
 
+import com.likelionproject.domain.dto.myfeeddto.MyFeedResult;
 import com.likelionproject.domain.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,6 +48,22 @@ public class PostResultFactory {
                         .lastModifiedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(post.getLastModifiedAt()))
                         .build()
         );
+    }
+
+    public static MyFeedResult newMyFeed(Page<PostGetResult> postAllResult) {
+        return MyFeedResult.builder()
+                .content(postAllResult.getContent())
+                .pageable("INSTANCE")
+                .last(postAllResult.hasNext())
+                .totalElements(postAllResult.getTotalElements())
+                .totalPages(postAllResult.getTotalPages())
+                .size(postAllResult.getSize())
+                .number(postAllResult.getNumber())
+                .sort(postAllResult.getSort())
+                .first(postAllResult.isFirst())
+                .numberOfElements(postAllResult.getNumberOfElements())
+                .empty(postAllResult.isEmpty())
+                .build();
     }
 
     public static PostPageResult from(Page<PostGetResult> postAllResult) {

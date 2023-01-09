@@ -1,10 +1,12 @@
 package com.likelionproject.service;
 
+import com.likelionproject.domain.dto.myfeeddto.MyFeedResult;
 import com.likelionproject.domain.entity.Post;
 import com.likelionproject.domain.dto.postdto.result.*;
 import com.likelionproject.domain.dto.Response;
 import com.likelionproject.domain.dto.postdto.request.PostCreateRequest;
 import com.likelionproject.domain.dto.postdto.request.PostModifyRequest;
+import com.likelionproject.domain.entity.User;
 import com.likelionproject.exception.AppException;
 import com.likelionproject.exception.ErrorCode;
 import com.likelionproject.repository.PostRepository;
@@ -49,15 +51,6 @@ public class PostService {
         return Response.success(postCreateResult);
     }
 
-    @Transactional(readOnly = true)
-    public Response<PostPageResult> getPosts(Pageable pageable) {
-        Page<Post> posts = postRepository.findAll(pageable);
-        Page<PostGetResult> postAllResult = PostResultFactory.newPage(posts);
-
-        PostPageResult postPageResult = PostResultFactory.from(postAllResult);
-
-        return Response.success(postPageResult);
-    }
 
     @Transactional(readOnly = true)
     public Response<PostGetResult> getOnePost(Long postId) {
@@ -77,4 +70,25 @@ public class PostService {
         PostDeleteResult postDeleteResult = PostResultFactory.newResult(deleteId);
         return Response.success(postDeleteResult);
     }
+
+    @Transactional(readOnly = true)
+    public Response<PostPageResult> getPosts(Pageable pageable) {
+        Page<Post> posts = postRepository.findAll(pageable);
+        Page<PostGetResult> postAllResult = PostResultFactory.newPage(posts);
+
+        PostPageResult postPageResult = PostResultFactory.from(postAllResult);
+
+        return Response.success(postPageResult);
+    }
+
+    public Response<MyFeedResult> getMyFeed(String userName, Pageable pageable) {
+        User selectedUser = userRepository.findByUserName(userName).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
+        Page<Post> myPosts = postRepository.findByUserId(selectedUser.getId(), pageable);
+        Page<PostGetResult> myPostsResult = PostResultFactory.newPage(myPosts);
+
+        MyFeedResult myFeedResult = PostResultFactory.newMyFeed(myPostsResult);
+
+        return Response.success(myFeedResult);
+    }
+
 }
