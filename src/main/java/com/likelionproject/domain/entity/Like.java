@@ -1,19 +1,18 @@
 package com.likelionproject.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Getter
 @Entity
-@Table
+@Table(name = "likes")
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Getter
-public class Like {
+public class Like extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,5 +24,20 @@ public class Like {
     @ManyToOne
     @JoinColumn(name="post_id")
     private Post post;
+
+    private LocalDateTime deletedAt;
+
+    public Like(User user, Post post) {
+        this.user = user;
+        this.post = post;
+    }
+
+    public void addDeletedAtLike() {
+        this.deletedAt = LocalDateTime.now();
+    }
+
+    public void setDeleteAtNullLike() {
+        this.deletedAt = null;
+    }
 
 }
