@@ -4,11 +4,13 @@ import com.likelionproject.domain.dto.Response;
 import com.likelionproject.domain.dto.commentdto.request.CommentCreateRequest;
 import com.likelionproject.domain.dto.commentdto.request.CommentModifyRequest;
 import com.likelionproject.domain.dto.commentdto.result.*;
+import com.likelionproject.domain.entity.Alarm;
 import com.likelionproject.domain.entity.Comment;
 import com.likelionproject.domain.entity.Post;
 import com.likelionproject.domain.entity.User;
 import com.likelionproject.exception.AppException;
 import com.likelionproject.exception.ErrorCode;
+import com.likelionproject.repository.AlarmRepository;
 import com.likelionproject.repository.CommentRepository;
 import com.likelionproject.repository.PostRepository;
 import com.likelionproject.repository.UserRepository;
@@ -28,12 +30,16 @@ public class CommentService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+    private final AlarmRepository alarmRepository;
+
     public Response<CommentCreateResult> createComment(Long postId, CommentCreateRequest commentCreateRequest, Authentication authentication) {
         Post selectedPost = postRepository.findById(postId).orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUNDED));
         User writingUser = userRepository.findByUserName(authentication.getName()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
         Comment newComment = commentRepository.save(commentCreateRequest.toEntity(selectedPost, writingUser));
         CommentCreateResult commentCreateResult = CommentResultFactory.from(newComment);
+
+        alarmRepository.save(new Alarm().toEntity("NEW_COMMENT_ON_POST", selectedPost.getUser(), postId, "new comment!"));
 
         return Response.success(commentCreateResult);
     }
