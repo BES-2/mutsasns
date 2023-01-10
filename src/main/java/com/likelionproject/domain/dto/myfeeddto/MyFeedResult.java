@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -16,14 +17,8 @@ import java.util.List;
 public class MyFeedResult {
     private List<PostGetResult> content;
 
-    private String pageable;
-    private Boolean last;
-    private Long totalElements;
-    private Integer totalPages;
-    private Integer size;
-    private Integer number;
-    private Sort sort;
-    private Boolean first;
+    private Pageable pageable;
     private Integer numberOfElements;
+    private Boolean first;
     private Boolean empty;
 }

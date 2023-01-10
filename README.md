@@ -7,6 +7,12 @@
 - [x] [**전체 게시글 조회** (GET)](#5.-전체-게시글-조회)
 - [x] [**특정 게시글 삭제** (DELETE)](#6.-특정-게시글-삭제)
 - [x] [**게시글 수정** (PUT)](#7.-게시글-수정)
+- [x] [**마이 피드** (GET)](#8.-마이-피드)
+- [x] [**좋아요 추가** (POST)](#9.-좋아요-추가)
+- [x] [**좋아요 확인** (GET)](#10.-좋아요-확인)
+- [x] [**댓글 추가** (POST)](#11.-댓글-추가)
+- [x] [**댓글 확인** (GET)](#12.-댓글-확인)
+- [x] [**알림** (POST, GET)](#13.-알림)
 
 ## 구현 기능 상세 설명
 ### 1. 회원 가입(Join)
@@ -196,5 +202,170 @@
 }
 ```
 
+### 8. 마이 피드
+- endpoint : `/api/v1/posts/my`
+- token으로 받은 `userName`의 게시글 반환
 
+```json
+{
+    "resultCode": "SUCCESS",
+    "result": {
+        "content": [
+            {
+                "id": 2,
+                "title": "방어와 공격 무엇이 중요한가",
+                "body": "신선도가 중요하다.",
+                "userName": "cat",
+                "createdAt": "2023-01-10 17:05:52",
+                "lastModifiedAt": "2023-01-10 17:05:52"
+            },
+            {
+                "id": 1,
+                "title": "life is C between B and D",
+                "body": "Beat Chill Dance",
+                "userName": "cat",
+                "createdAt": "2023-01-10 17:04:56",
+                "lastModifiedAt": "2023-01-10 17:04:56"
+            }
+        ],
+        "pageable": {
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "pageSize": 20,
+            "pageNumber": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "first": null,
+        "numberOfElements": 2,
+        "empty": false
+    }
+}
+```
+
+### 9. 좋아요 추가
+- endpoint : `/api/v1/posts/{postId}/likes`
+- token을 통해 `User` 를 확인하고 해당 Post에 좋아요 추가
+- 좋아요를 다시 누를경우, deletedAt 추가
+
+```json
+{
+    "resultCode": "SUCCESS",
+    "result": "좋아요를 눌렀습니다."
+}
+```
+
+### 10. 좋아요 확인
+- endpoint : `/api/v1/posts/{postId}/likes`
+- `{postId}`에 해당하는 좋아요 수 반환
+- `deletedAt`이 `null`인 경우만 갯수에 적용
+
+```json
+{
+    "resultCode": "SUCCESS",
+    "result": 2
+}
+```
+
+### 11. 댓글 확인
+- endpoint : `/api/v1/posts/{postId}/comments`
+- `{postId}`에 해당하는 댓글 pageable로 반환
+
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": {
+    "content": [
+      {
+        "id": 1,
+        "comment": "최선의 방어는 대방어. 뱃살 많이주세요.",
+        "userName": "namsee",
+        "postId": 1,
+        "createdAt": "2023-01-10 17:06:38"
+      }
+    ],
+    "pageable": "INSTANCE",
+    "last": false,
+    "totalElements": 1,
+    "totalPages": 1,
+    "size": 20,
+    "number": 0,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "first": true,
+    "numberOfElements": 1,
+    "empty": false
+  }
+}
+```
+
+### 12. 댓글 작성
+- endpoint : `/api/v1/posts/{postId}/comments`
+- `{postId}`에 해당하는 게시글에 댓글 추가
+
+input
+```json
+{
+	"comment" : "최선의 공격은 방어회. 뱃살 많이주세요."
+}
+```
+
+output
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": {
+    "id": 3,
+    "comment": "최선의 공격은 방어회. 뱃살 많이주세요.",
+    "userName": "cat",
+    "postId": 1,
+    "createdAt": "2023-01-10 17:52:03"
+  }
+}
+```
+
+### 13. 알림
+- endpoint : `/api/v1/alarms`
+- token으로 받은 User의 게시글에 해당하는 좋아요, 댓글 확인
+
+
+output
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": [
+    {
+      "id": 3,
+      "alarmType": "NEW_COMMENT_ON_POST",
+      "fromUserId": 1,
+      "targetId": 2,
+      "text": "new comment!",
+      "createdAt": "2023-01-10T17:07:15.598141"
+    },
+    {
+      "id": 2,
+      "alarmType": "NEW_LIKE_ON_POST",
+      "fromUserId": 1,
+      "targetId": 1,
+      "text": "new like!",
+      "createdAt": "2023-01-10T17:06:53.682583"
+    },
+    {
+      "id": 1,
+      "alarmType": "NEW_COMMENT_ON_POST",
+      "fromUserId": 1,
+      "targetId": 1,
+      "text": "new comment!",
+      "createdAt": "2023-01-10T17:06:38.127019"
+    }
+  ]
+}
+```
 

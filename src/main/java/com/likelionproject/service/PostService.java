@@ -86,7 +86,7 @@ public class PostService {
         Page<Post> myPosts = postRepository.findByUserId(selectedUser.getId(), pageable);
         Page<PostGetResult> myPostsResult = PostResultFactory.newPage(myPosts);
 
-        MyFeedResult myFeedResult = PostResultFactory.newMyFeed(myPostsResult);
+        MyFeedResult myFeedResult = PostResultFactory.newMyFeed(myPostsResult, pageable);
 
         return Response.success(myFeedResult);
     }

@@ -5,6 +5,7 @@ import com.likelionproject.domain.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.format.DateTimeFormatter;
 
@@ -50,17 +51,10 @@ public class PostResultFactory {
         );
     }
 
-    public static MyFeedResult newMyFeed(Page<PostGetResult> postAllResult) {
+    public static MyFeedResult newMyFeed(Page<PostGetResult> postAllResult, Pageable pageable) {
         return MyFeedResult.builder()
                 .content(postAllResult.getContent())
-                .pageable("INSTANCE")
-                .last(postAllResult.hasNext())
-                .totalElements(postAllResult.getTotalElements())
-                .totalPages(postAllResult.getTotalPages())
-                .size(postAllResult.getSize())
-                .number(postAllResult.getNumber())
-                .sort(postAllResult.getSort())
-                .first(postAllResult.isFirst())
+                .pageable(pageable)
                 .numberOfElements(postAllResult.getNumberOfElements())
                 .empty(postAllResult.isEmpty())
                 .build();
